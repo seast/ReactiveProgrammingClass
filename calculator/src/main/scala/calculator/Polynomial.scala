@@ -12,8 +12,12 @@ object Polynomial {
       c: Signal[Double], delta: Signal[Double]): Signal[Set[Double]] = {
     Signal{
       val delta = Math.sqrt(computeDelta(a,b,c).apply)
+      if (delta > 0)
       Set((-1 * b.apply + delta) / (2 * a.apply), 
-          (-1 * b.apply - delta) / (2 * a.apply)) 
+          (-1 * b.apply - delta) / (2 * a.apply))
+      else if (delta == 0) 
+        Set((-1 * b.apply) / (2 * a.apply))
+      else  Set()
     }
   }
 }

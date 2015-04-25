@@ -12,7 +12,7 @@ object Calculator {
   def computeValues(
       namedExpressions: Map[String, Signal[Expr]]): Map[String, Signal[Double]] = {
     namedExpressions transform ((k,v) => Signal {      
-      eval(v.apply, namedExpressions)
+      eval(v.apply, namedExpressions-k)
     })
   }
 
