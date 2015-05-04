@@ -53,9 +53,12 @@ package object nodescala {
     def any[T](fs: List[Future[T]]): Future[T] = {
       val p = Promise[T]()
       fs.map(future => future.onComplete {
-        _:scala.util.Try[T] => {
+        x:scala.util.Try[T] => { 
           if (!p.isCompleted) {
-            p.complete(_)
+              x match {
+                case Success(v) => p.complete(x)
+                case Failure(e) => p.failure(e)
+            }
           }
         }
       })
