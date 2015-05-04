@@ -30,6 +30,34 @@ class NodeScalaSuite extends FunSuite {
       case t: TimeoutException => // ok!
     }
   }
+  test("delay") {
+    val timeout = Future.delay(1 seconds)
+    try {
+      val x = Await.result(timeout, 10 second)
+    } catch {
+      case t: TimeoutException => assert(false)
+    }
+    val timeout2 = Future.delay(10 seconds)
+    try {
+      val x = Await.result(timeout2, 1 second)
+      assert(false)
+    } catch {
+      case t: TimeoutException => 
+    }
+  }
+
+  test("Any") {
+    val never = Future.never[Int]
+    val timeout = Future.delay(1 seconds)
+    val always = Future.always(517)
+    val wait = Future.any(always::timeout::List())
+    try {
+      val x = Await.result(wait, 1 second)
+      assert(x == 517)
+    } catch {
+      case t: TimeoutException => assert(false)
+    }
+  }
 
   
   

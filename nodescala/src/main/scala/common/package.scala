@@ -1,4 +1,7 @@
 import java.io.File
+import scala.concurrent._
+import scala.concurrent.duration._
+import ExecutionContext.Implicits.global
 
 package object common {
 
@@ -38,3 +41,4 @@ package object common {
       None
   }
 }
+
